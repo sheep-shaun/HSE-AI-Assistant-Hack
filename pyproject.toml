@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "hse-aiahp-baseline"
+version = "0.1.0"
+description = "Baseline solution of HSE AI Assistant Hack: Python [https://www.hse.ru/ai-assistant-hack-python/]"
+authors = ["Maxim Kirilyuk <werserk@inbox.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.32.3"
+python-dotenv = "^1.0.1"
+pandas = "^2.2.3"
+scikit-learn = "^1.5.2"
+torch = "^2.4.1"
+transformers = "^4.45.2"
+openpyxl = "^3.1.5"
+accelerate = "^1.0.1"
+
+[tool.poetry.group.dev.dependencies]
+black = { extras = ["jupyter"], version = "^24.10.0" }
+pre-commit = "^4.0.1"
+jupyter = "^1.1.1"
+tqdm = "^4.66.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
