@@ -4,5 +4,5 @@ __pycache__/
 venv/
 .env
 
-data/
+data/processed
 !app/data

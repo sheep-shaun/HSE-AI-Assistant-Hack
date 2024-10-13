@@ -1,4 +1,7 @@
 import os
+import time
+
+from typing import Optional
 
 import pandas as pd
 from dotenv import load_dotenv
@@ -20,13 +23,14 @@ if __name__ == "__main__":
     )
 
 
-    def predict(row: pd.Series) -> str:
+    def predict(row: pd.Series) -> Optional[str]:
+        time.sleep(1)
         return yandex_gpt.ask(row["student_solution"])
 
 
     generate_submit(
-        test_solutions_path="../data/raw/test/solutions.xlsx",
+        test_solutions_path="./data/test/solutions.xlsx",
         predict_func=predict,
-        save_path="../data/processed/submission.csv",
+        save_path="./data/processed/submission.csv",
         use_tqdm=True,
     )
