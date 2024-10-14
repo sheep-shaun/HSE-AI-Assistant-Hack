@@ -6,6 +6,9 @@ import json
 import re
 
 import requests
+from langchain.schema import HumanMessage, SystemMessage, AIMessage
+from langchain.chat_models.gigachat import GigaChat
+from typing import Optional
 
 from app.models.base import BaseModel
 
@@ -140,3 +143,48 @@ class DuckDuckGoLLM(BaseModel):
         self.messages.append({"role": "assistant", "text": response})
 
         return self.messages
+
+
+class GigaChatWrapper(BaseModel):
+    def __init__(
+        self, 
+        credentials, # Auth token
+        model: str = "GigaChat", # ["GigaChat", "GigaChat-Pro"]
+        system_prompt: Optional[str] = None,
+    ):
+        super().__init__(system_prompt)
+
+        self.giga = GigaChat(credentials=credentials, model=model, verify_ssl_certs=False)  
+
+        self.roles = {
+            HumanMessage: "system",
+            SystemMessage: "system",
+            AIMessage: "assistant",
+        }
+
+    def _unwrap_giga_messages(self, messages):
+        parsed_messages = []
+
+        for message in messages:
+            parsed_messages.append({"role": self.roles[type(message)], "text": message.content})
+
+        return parsed_messages
+        
+    def ask(self, user_message: str, clear_history: bool = True) -> Optional[str]:
+        if clear_history:
+            self.messages = []
+            if self.system_prompt:
+                self.messages.append(SystemMessage(content=self.system_prompt))
+        
+        self.messages.append(HumanMessage(content=user_message))
+
+        output = self.giga(self.messages)
+
+        self.messages.append(output)
+
+        # return self._unwrap_giga_messages(self.messages)
+
+        return output.content
+
+
+    
