@@ -24,7 +24,7 @@ class Retriever:
         query_emb = np.expand_dims(self.test_embeddings[idx], axis=0)
         _, indices =  self.nbrs.kneighbors(query_emb)
         # print(indices, _)
-        return self.train_df.iloc[indices[0]].author_comment.values[0]
+        return self.train_df.iloc[indices[0]].author_comment.values
 
 
 
