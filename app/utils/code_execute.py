@@ -40,6 +40,8 @@ def execute_dataset(data: pd.DataFrame) -> pd.DataFrame:
         for test_i, test_case in enumerate(row["test_input"]):
             if pd.isna(test_case):
                 continue
+            if "; " in test_case:
+                test_case = test_case.replace("; ", "\n")
             test_result = execute_code(row["student_solution"], test_case)
             if "FileNotFoundError" in test_result:
                 test_result = None
