@@ -1,14 +1,17 @@
+import numpy as np
 from scipy.spatial.distance import cosine
 from sklearn.neighbors import NearestNeighbors
 
 
 class Retriever:
-    def __init__(self, train_embeddings, test_embeddings, train_df):
+    def __init__(self, train_embeddings, test_embeddings, train_df, n_neighbors: int = 1):
         self.train_embeddings = train_embeddings
         self.test_embeddings = test_embeddings
         self.train_df = train_df
 
-        self.nbrs = NearestNeighbors(n_neighbors=1, algorithm='ball_tree', metric=cosine).fit(self.train_embeddings)
+        self.n_neighbors = n_neighbors
+
+        self.nbrs = NearestNeighbors(n_neighbors=n_neighbors, algorithm='ball_tree', metric=cosine).fit(self.train_embeddings)
 
     @staticmethod
     def read_embeddings(path):
