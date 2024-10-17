@@ -14,3 +14,8 @@ def is_python_code(text):
             return False
 
     return bool(code_pattern.search(text))
+
+
+if __name__ == "__main__":
+    test = """Вы забыли поставить двоеточие после условия цикла for ."""
+    print(is_python_code(test))
