@@ -38,7 +38,6 @@ if __name__ == "__main__":
         row = DatasetRow(row)
         
         if jailbreak_inference([row.student_solution]) == 1: # jailbreak class
-            print(f"filtred: {row.student_solution}")
             return zaglushka()
 
         prefix = f'''Описание задачи, которую решает студент:
