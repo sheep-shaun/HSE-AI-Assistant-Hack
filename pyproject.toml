@@ -15,6 +15,8 @@ torch = "^2.4.1"
 transformers = "^4.45.2"
 openpyxl = "^3.1.5"
 accelerate = "^1.0.1"
+catboost = "^1.2.7"
+levenshtein = "^0.26.0"
 
 [tool.poetry.group.dev.dependencies]
 black = { extras = ["jupyter"], version = "^24.10.0" }

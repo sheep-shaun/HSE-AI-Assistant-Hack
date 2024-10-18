@@ -1,4 +1,5 @@
 import os
+import time
 from typing import Optional
 
 import requests
@@ -12,6 +13,12 @@ class YandexGPT(BaseModel):
     model_urls = {
         "lite": "gpt://{}/yandexgpt-lite/latest",
         "pro": "gpt://{}/yandexgpt/latest",  # Restricted by competition rules, but you can test accuracy with it
+        "tune_v1.3": "ds://bt1e927gv5q9njnhvu8j",
+        "tune_v1.4": "ds://bt1u2nf14gdqmv15n1ma",
+        "tune_v1.5": "ds://bt1bgi79evps1g3be2r3",
+        "tune_v1.6": "ds://bt13da1d434kjgdvpj1h",
+        "tune_v1.7": "ds://bt1r2k51nd82eundlp50",
+        "tune_v1.8": "ds://bt19leh5gu9o16urns31",
     }
 
     def __init__(
@@ -54,7 +61,8 @@ class YandexGPT(BaseModel):
         response = requests.post(self.api_url, headers=self.headers, json=json_request)
         if response.status_code != 200:
             print("Error:", response.status_code, response.text)
-            return None
+            time.sleep(5)
+            return self.ask(user_message, clear_history)
 
         response_data = response.json()
         assistant_message = response_data["result"]["alternatives"][0]["message"]["text"]

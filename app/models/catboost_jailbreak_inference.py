@@ -1,5 +1,4 @@
 import torch 
-from tqdm import tqdm
 from transformers import BertTokenizer, BertModel
 from catboost import CatBoostClassifier
 import pickle
@@ -14,7 +13,7 @@ with open('pca_labse_from_768_to_32.pkl', 'rb') as f:
 @torch.no_grad()
 def embed_bert_cls(model, tokenizer, texts, batch_size, device):
     all_embeds = []
-    for i in tqdm(range(len(texts) // batch_size)):
+    for i in range(len(texts) // batch_size):
         tokenzed = tokenizer(texts[batch_size*i:batch_size*i+batch_size],
                         padding=True,
                         truncation=True,
@@ -45,8 +44,8 @@ def jailbreak_inference(texts: list):
         device='cpu'
     )
     embeddings = pca.transform(embeddings)
-    y_pred = clf.predict(embeddings)
-    return y_pred
+    y_pred = clf.predict_proba(embeddings)[:, 1]
+    return int(y_pred > 0.984)
 
 
 if __name__ == '__main__':
