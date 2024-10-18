@@ -82,11 +82,6 @@ diff решения студента с авторским (правильным
         #
         
         if is_python_code(final_predict) or check_similarity(final_predict, row.author_solution) or set_interseaction(final_predict, row.author_solution) or (row.executed and check_tests(final_predict, row.failed_test_output)) or (row.executed and check_tests(final_predict, row.failed_test_input)):
-            print(check_similarity(final_predict, row.author_solution))
-            print(check_tests(final_predict, row.failed_test_output))
-            print(check_tests(final_predict, row.failed_test_input))
-            print(set_interseaction(final_predict, row.author_solution, 0.2))
-            print(final_predict)
             return zaglushka()
 
         return final_predict
