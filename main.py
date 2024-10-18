@@ -15,6 +15,7 @@ from app.utils.prompts import zaglushka
 from app.utils.entities import DatasetRow
 from app.utils.dataset import merge_datasets
 from app.utils.code_execute import execute_dataset
+from app.utils.filters import check_similarity, check_tests, set_interseaction
 
 
 if __name__ == "__main__":
@@ -80,7 +81,11 @@ diff решения студента с авторским (правильным
                 final_predict = generation
         #
         
-        if is_python_code(final_predict):
+        if is_python_code(final_predict) or check_similarity(final_predict, row.author_solution) or set_interseaction(final_predict, row.author_solution) or (row.executed and check_tests(final_predict, row.failed_test_output)) or (row.executed and check_tests(final_predict, row.failed_test_input)):
+            print(check_similarity(final_predict, row.author_solution))
+            print(check_tests(final_predict, row.failed_test_output))
+            print(check_tests(final_predict, row.failed_test_input))
+            print(set_interseaction(final_predict, row.author_solution, 0.2))
             print(final_predict)
             return zaglushka()
 
